@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/buttons.css" />
+		<link rel="stylesheet" type="text/css" href="css/footer.css" />
+		<link rel="stylesheet" type="text/css" href="css/form.css" />
+		<link rel="stylesheet" type="text/css" href="css/homepage.css" />
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css"
+			  integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous" />
+		<script src="js/homepage.js"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<main class="scol12">
+			<section class="scol12 bcol6">
+				<h1>Team Tasks</h1>
+				<p>An app to help you organize a lead your team in an organized way.</p>
+				<p>
+					<span class="fas fa-users"></span> Create and manage teams with your collaborators.<br /><br />
+					<span class="fas fa-comments"></span> Real time communication.<br /><br />
+					<span class="fa fa-paper-plane"></span> It's free. No cost, no ads.
+				</p>
+			</section>
+			<span class="scol0 bcol1"></span>
+
+			<!-- Login section -->
+			<section class="scol12 bcol4" id="login-section">
+				<h2>Welcome</h2>
+				<form class="scol12" name="login-form">
+					<label class="scol12" for="login-email">Email</label>
+					<div class="scol12">
+						<span class="scol1 fa fa-envelope input-icon-area"></span>
+						<input class="scol11" type="email" name="login-email" />
+					</div>
+					<label class="scol12" for="login-password">Password</label>
+					<div class="scol12">
+						<span class="scol1 fa fa-key input-icon-area"></span>
+						<input class="scol11" type="password" name="login-password" />
+					</div>
+					<button class="scol12 blue-button">
+						<span class="scol2"></span>
+						<span class="scol8">Log in</span>
+						<span class="scol2 fa fa-sign-in-alt"></span>
+					</button>
+				</form>
+
+				<p class="scol12 text-after-form">
+					Not signed up yet? <span class="text-button" onclick="showSignUpSection()">Create an account</span>
+				</p>
+			</section>
+
+			<!-- Sign up section -->
+			<section class="scol12 bcol4" style="display: none" id="sign-up-section">
+				<h2>Sign up</h2>
+				<form class="scol12" name="sign-up-form">
+					<label class="scol12" for="sign-up-name">Name</label>
+					<input class="scol12" type="text" name="sign-up-name" />
+					<label class="scol12" for="sign-up-last-name">Last name</label>
+					<input class="scol12" type="text" name="sign-up-last-name" />
+					<label class="scol12" for="sign-up-nick">Nick</label>
+					<div class="scol12">
+						<span class="scol1 fa fa-user input-icon-area"></span>
+						<input class="scol11" type="text" name="sign-up-nick" />
+					</div>
+					<label class="scol12" for="sign-up-email">Email</label>
+					<div class="scol12">
+						<span class="scol1 fa fa-envelope input-icon-area"></span>
+						<input class="scol11" type="email" name="sign-up-email" />
+					</div>
+					<label class="scol12" for="sign-up-password">Password</label>
+					<div class="scol12">
+						<span class="scol1 fa fa-key input-icon-area"></span>
+						<input class="scol11" type="password" name="sign-up-password"/>
+					</div>
+					<label class="scol12" for="sign-up-confirm-password">Confirm password</label>
+					<div class="scol12">
+						<span class="scol1 fa fa-key input-icon-area"></span>
+						<input class="scol11" type="password" name="sign-up-confirm-password"/>
+					</div>
+					<button class="scol12 blue-button">
+						<span class="scol2"></span>
+						<span class="scol8">Sign up</span>
+						<span class="scol2 fa fa-sign-in-alt"></span>
+					</button>
+				</form>
+				<div class="scol12">
+					<span class="text-button text-after-form" onclick="showLogInSection()">Cancel</span>
+				</div>
+			</section>
+		</main>
+
+		<footer class="scol12 footer">
+			<section class="scol12 bcol4">
+				<h1>About</h1>
+				<p>We are students of the Ciudad Valles Technological Institute.</p>
+			</section>
+			<section class="scol12 bcol4">
+				<h1>Contact</h1>
+				<p>
+					<span class="fa fa-envelope"></span> contact.teamtasks@gmail.com
+				</p>
+			</section>
+			<section class="scol12 bcol4">
+				<h1>Source code</h1>
+				<p>
+					Yes, it's open source and licensed under the GPLv3. Find it
+					<a href="https://github.com/PSIProject">here</a>.<span class="fab fa-github"></span>
+				</p>
+			</section>
+		</footer>
+	</body>
+</html>

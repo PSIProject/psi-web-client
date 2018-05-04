@@ -1,0 +1,18 @@
+.footer
+{
+	padding: 2% 4%;
+	border-top: 1px solid #ccc;
+}
+
+.footer h1
+{
+	margin-top: 0px;
+	font-size: 200%;
+}
+
+.footer p
+{
+	font-size: 130%;
+	padding: 0;
+	text-align: justify;
+}

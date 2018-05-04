@@ -1,0 +1,44 @@
+input[type=text], input[type=password], input[type=email], input[type=number], textarea
+{
+	background-color: white;
+	color: #555753;
+	font-size: 120%;
+	font-family: 'MainFont';
+	padding: 2%;
+
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 3px;
+	border-color: #bbb;
+}
+
+textarea { resize: none; }
+
+.checklist, .textarea
+{
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 3px;
+	border-color: #bbb;
+	padding: 2%;
+}
+
+input:focus { border-color: #43ace8; }
+
+label
+{
+	color: #555;
+	text-align: left;
+}
+
+* + label { margin-top: 20px; }
+label + * { margin-top: 5px; }
+form + *, input + *, .checklist + *, .textarea + * { margin-top: 20px; }
+* + button { margin-top: 25px; }
+
+.input-icon-area
+{
+	padding: 2%;
+	text-align: center;
+	color: #555;
+}

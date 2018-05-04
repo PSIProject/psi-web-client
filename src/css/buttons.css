@@ -1,0 +1,26 @@
+button
+{
+	padding: 2%;
+	font-size: 110%;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	transition: 0.4s ease;
+}
+
+.blue-button
+{
+	background-color: #418fe0;
+	color: white;
+}
+
+.blue-button:hover { background-color: #5da1e7; }
+
+.text-button
+{
+	color: #418fe0;
+	cursor: pointer;
+	transition: 0.4s ease;
+}
+
+.text-button:hover { color: #025cb9; }
