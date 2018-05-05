@@ -31,7 +31,6 @@ function verifyNickAvailability(input)
 		if (this.readyState != 4 || this.status != 200)
 			return;
 
-		console.log(this.responseText);
 		if (this.responseText == "false")
 		{
 			input.value = "";
