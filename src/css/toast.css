@@ -1,0 +1,38 @@
+#toast
+{
+	background-color: #333;
+	position: fixed;
+	padding: 10px;
+	bottom: 15px;
+	visibility: hidden;
+	color: white;
+	text-align: left;
+	border-radius: 2px;
+	z-index: 5;
+}
+
+/* Toast animation */
+#toast.show-toast
+{
+	visibility: visible;
+	-webkit-animation: toast-animation 0.5s, toast-animation 0.5s 2.5s reverse;
+	animation: toast-animation 0.5s, toast-animation 0.5s 2.5s reverse;
+}
+
+@-webkit-keyframes toast-animation
+{
+	from { bottom: 0;     opacity: 0; }
+	to   { bottom: 15px;  opacity: 1; }
+}
+
+@keyframes toast-animation
+{
+	from { bottom: 0;     opacity: 0; }
+	to   { bottom: 15px;  opacity: 1; }
+}
+
+/* Big screens */
+@media only screen and (min-width: 768px)
+{
+	#toast { padding: 10px; font-size: 120%; }
+}

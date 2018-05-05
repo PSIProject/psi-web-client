@@ -8,9 +8,12 @@
 		<link rel="stylesheet" type="text/css" href="css/footer.css" />
 		<link rel="stylesheet" type="text/css" href="css/form.css" />
 		<link rel="stylesheet" type="text/css" href="css/homepage.css" />
+		<link rel="stylesheet" type="text/css" href="css/toast.css" />
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css"
 			  integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous" />
+
 		<script src="js/homepage.js"></script>
+		<script src="js/toast.js"></script>
 		<title>Team Tasks</title>
 	</head>
 
@@ -36,11 +39,13 @@
 						<span class="fa fa-envelope input-icon"></span>
 						<input class="scol12" type="email" name="login-email" />
 					</div>
+
 					<label class="scol12" for="login-password">Password</label>
 					<div class="scol12 input-container">
 						<span class="fa fa-key input-icon"></span>
 						<input class="scol12" type="password" name="login-password" />
 					</div>
+
 					<button class="scol12 blue-button">
 						<span class="scol2"></span>
 						<span class="scol8">Log in</span>
@@ -56,31 +61,46 @@
 			<!-- Sign up section -->
 			<section class="scol12 bcol4" style="display: none" id="sign-up-section">
 				<h2>Sign up</h2>
-				<form class="scol12" name="sign-up-form">
+				<form class="scol12" name="sign-up-form" action="javascript: signUp()">
 					<label class="scol12" for="sign-up-name">Name</label>
-					<input class="scol12" type="text" name="sign-up-name" />
+					<input class="scol12" type="text" name="sign-up-name" maxlength="25" onblur="checkValidity()"
+						   oninput="setCustomValidity('')" required="required" />
+
 					<label class="scol12" for="sign-up-last-name">Last name</label>
-					<input class="scol12" type="text" name="sign-up-last-name" />
-					<label class="scol12" for="sign-up-nick">Nick</label>
+					<input class="scol12" type="text" name="sign-up-last-name" maxlength="15" onblur="checkValidity()"
+						   oninput="setCustomValidity('')" required="required" />
+
+					<label class="scol12" for="sign-up-nick">Nick - <i> Start with a letter</i></label>
 					<div class="scol12 input-container">
 						<span class="fa fa-user input-icon"></span>
-						<input class="scol12" type="text" name="sign-up-nick" />
+						<input class="scol12" type="text" name="sign-up-nick" placeholder="letters, numbers, dots and underscores" maxlength="25"
+							   pattern="[aA-zZ](\.|[aA-zZ]|\d|_)*" onblur="verifyNickAvailability(this)"
+							   oninput="document.getElementById('unavailable-nick-message').style.display = 'none'" required="required" />
 					</div>
+					<span class="scol12 input-error-message" id="unavailable-nick-message">Nick is already registered</span>
+
 					<label class="scol12" for="sign-up-email">Email</label>
 					<div class="scol12 input-container">
 						<span class="fa fa-envelope input-icon"></span>
-						<input class="scol12" type="email" name="sign-up-email" />
+						<input class="scol12" type="email" name="sign-up-email" placeholder="me@example.com" maxlength="30"
+							   onblur="verifyEmailAvailability(this)"
+					   		   oninput="document.getElementById('unavailable-email-message').style.display = 'none'" required="required" />
 					</div>
+					<span class="scol12 input-error-message" id="unavailable-email-message">Email is already registered</span>
+
 					<label class="scol12" for="sign-up-password">Password</label>
 					<div class="scol12 input-container">
 						<span class="fa fa-key input-icon"></span>
-						<input class="scol12" type="password" name="sign-up-password"/>
+						<input class="scol12" type="password" name="sign-up-password" maxlength="64" required="required" />
 					</div>
+
 					<label class="scol12" for="sign-up-confirm-password">Confirm password</label>
 					<div class="scol12 input-container">
 						<span class="fa fa-key input-icon"></span>
-						<input class="scol12" type="password" name="sign-up-confirm-password"/>
+						<input class="scol12" type="password" name="sign-up-confirm-password" maxlength="64" onblur="verifyPasswordsMatch()"
+							   required="required" />
 					</div>
+
 					<button class="scol12 blue-button">
 						<span class="scol2"></span>
 						<span class="scol8">Sign up</span>
@@ -93,6 +113,11 @@
 				</p>
 			</section>
 		</main>
+
+		<section class="scol12">
+			<span class="scol1 bcol3"></span>
+			<span class="scol10 bcol6" id="toast"></span>
+		</section>
 
 		<footer class="scol12 footer">
 			<section class="scol12 bcol4">
