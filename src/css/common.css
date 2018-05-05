@@ -28,6 +28,22 @@ a
 
 a:hover { color: #025cb9; }
 
+p
+{
+	color: #555;
+	font-size: 130%;
+}
+
+h1, h2
+{
+	text-align: center;
+	font-size: 500%;
+	font-family: 'TitleFont';
+	font-weight: lighter;
+}
+
+h2 { font-size: 450%; }
+
 /* Grid layout */
 * { box-sizing: border-box; }
 

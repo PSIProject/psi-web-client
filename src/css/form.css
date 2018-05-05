@@ -1,12 +1,3 @@
-.input-container { position: relative; }
-.input-icon
-{
-	position: absolute;
-	left: 3%;
-	top: 30%;
-	color: #555;
-}
-
 input[type=text], input[type=password], input[type=email], input[type=number], textarea
 {
 	background-color: white;
@@ -14,7 +5,6 @@ input[type=text], input[type=password], input[type=email], input[type=number], t
 	font-size: 120%;
 	font-family: 'MainFont';
 	padding: 2%;
-	padding-left: 9%;
 
 	border-style: solid;
 	border-width: 1px;
@@ -24,7 +14,7 @@ input[type=text], input[type=password], input[type=email], input[type=number], t
 
 textarea { resize: none; }
 
-.checklist, .textarea
+.textarea
 {
 	border-style: solid;
 	border-width: 1px;
@@ -43,5 +33,17 @@ label
 
 * + label { margin-top: 20px; }
 label + * { margin-top: 5px; }
-form + *, input + *, .checklist + *, .textarea + * { margin-top: 20px; }
+form + *, input + *, .textarea + * { margin-top: 20px; }
 * + button { margin-top: 25px; }
+
+.input-container { position: relative; }
+
+.input-icon
+{
+	position: absolute;
+	left: 3%;
+	top: 30%;
+	color: #555;
+}
+
+.input-container input { padding-left: 9%; }
