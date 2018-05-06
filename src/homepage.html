@@ -12,6 +12,7 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css"
 			  integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous" />
 
+	  	<script src="js/common.js"></script>
 		<script src="js/homepage.js"></script>
 		<script src="js/toast.js"></script>
 		<title>Team Tasks</title>
@@ -54,7 +55,7 @@
 				</form>
 
 				<p class="scol12">
-					Not signed up yet? <span class="text-button" onclick="showSignUpSection()">Create an account</span>
+					Not signed up yet? <span class="text-button" onclick="replaceElement('login-section', 'sign-up-section')">Create an account</span>
 				</p>
 			</section>
 
@@ -109,7 +110,7 @@
 				</form>
 
 				<p class="scol12">
-					<span class="text-button" onclick="showLogInSection()">Cancel</span>
+					<span class="text-button" onclick="replaceElement('sign-up-section', 'login-section')">Cancel</span>
 				</p>
 			</section>
 		</main>
