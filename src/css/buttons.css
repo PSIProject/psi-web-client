@@ -1,11 +1,12 @@
 button
 {
 	padding: 2%;
-	font-size: 110%;
+	font-size: 150%;
 	border: none;
 	border-radius: 3px;
 	cursor: pointer;
 	transition: 0.4s ease;
+	font-family: 'MainFont';
 }
 
 .blue-button

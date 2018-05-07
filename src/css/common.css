@@ -70,6 +70,7 @@ img
 /* Small columns for phones */
 .scol0 { width: 0; }
 .scol1 { width: 8.33%; }
+.scol1_5 { width: 12.49%; }
 .scol2 { width: 16.66%; }
 .scol3 { width: 25%; }
 .scol4 { width: 33.33%; }
