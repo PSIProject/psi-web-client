@@ -34,17 +34,17 @@
 			<!-- Login section -->
 			<section class="scol12 bcol4" id="login-section">
 				<h2>Welcome</h2>
-				<form class="scol12" name="login-form">
+				<form class="scol12" name="login-form" action="javascript: logIn()">
 					<label class="scol12" for="login-email">Email</label>
 					<div class="scol12 input-container">
 						<span class="fa fa-envelope input-icon"></span>
-						<input class="scol12" type="email" name="login-email" />
+						<input class="scol12" type="email" name="login-email" required="required" />
 					</div>
 
 					<label class="scol12" for="login-password">Password</label>
 					<div class="scol12 input-container">
 						<span class="fa fa-key input-icon"></span>
-						<input class="scol12" type="password" name="login-password" />
+						<input class="scol12" type="password" name="login-password" required="required" />
 					</div>
 
 					<button class="scol12 blue-button">
@@ -115,6 +115,7 @@
 			</section>
 		</main>
 
+		<!-- Toast -->
 		<section class="scol12">
 			<span class="scol1 bcol3"></span>
 			<span class="scol10 bcol6" id="toast"></span>

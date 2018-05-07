@@ -1,4 +1,30 @@
 //////////////////////////////////
+//////////////////////////////////
+function logIn()
+{
+	var loginForm = document.forms ["login-form"];
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		if (this.responseText == "true")
+		{
+			document.location.href = "team-tasks.html";
+		}
+		else
+		{
+			loginForm.reset();
+			showToast("Email or password is incorrect");
+		}
+	}
+	xhr.open("POST", "php/log-in.php");
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send("email=" + loginForm ["login-email"].value + "&password=" + loginForm ["login-password"].value);
+}
+
+//////////////////////////////////
 /// Verifies that the nick is available.
 /// If it's not, displays a message,
 /// clears the input and sets focused
