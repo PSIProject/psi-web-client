@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/buttons.css" />
+		<link rel="stylesheet" type="text/css" href="css/footer.css" />
+		<link rel="stylesheet" type="text/css" href="css/form.css" />
+		<link rel="stylesheet" type="text/css" href="css/nav.css" />
+		<link rel="stylesheet" type="text/css" href="css/team-tasks.css" />
+		<link rel="stylesheet" type="text/css" href="css/toast.css" />
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css"
+			  integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous" />
+
+		<script src="js/common.js"></script>
+		<script src="js/team-tasks.js"></script>
+		<script src="js/toast.js"></script>
+		<title>Team Tasks</title>
+	</head>
+
+	<body>
+		<nav class="scol12">
+			<span class="scol1_5 bcol3"></span>
+			<span class="scol3 bcol2 selected-nav-item" id="nav-item-home" onclick="goToSection(Sections.Home)">HOME</span>
+			<span class="scol3 bcol2" id="nav-item-teams" onclick="goToSection(Sections.Teams)">TEAMS</span>
+			<span class="scol3 bcol2" onclick="logOut()">LOG OUT</span>
+		</nav>
+
+		<main class="scol12">
+			<span class="scol0 bcol3"></span>
+			<section class="scol12 bcol6" id="home-section">
+				<h1>Home</h1>
+			</section>
+
+			<section class="scol12 bcol6" id="teams-section" style="display: none">
+				<h1>Teams</h1>
+				<div class="scroll-area" id="teams-area"></div>
+				<span class="bcol3"></span>
+				<button class="scol12 bcol6 blue-button" onclick="goToSection(Sections.NewTeam)">
+					<span class="scol2"></span>
+					<span class="scol8">Create team</span>
+					<span class="scol2 fa fa-plus"></span>
+				</button>
+			</section>
+
+			<!-- Team section -->
+			<section class="scol12 bcol6" id="team-section" style="display: none">
+				<h1 id="team-section-team-name"></h1>
+			</section>
+
+			<!-- New team section -->
+			<section class="scol12 bcol6" id="new-team-section" style="display: none">
+				<h1>New team</h1>
+				<span class="scol0 bcol2"></span>
+				<form class="scol12 bcol8" name="new-team-form" action="javascript: createTeam()">
+					<label class="scol12" for="new-team-name">Name</label>
+					<input class="scol12" type="text" maxlength="50" required="required" name="new-team-name" />
+					<button class="scol12 blue-button">
+						<span class="scol2"></span>
+						<span class="scol8">Create</span>
+						<span class="scol2 fa fa-check-circle"></span>
+					</button>
+				</form>
+			</section>
+		</main>
+
+		<!-- Toast -->
+		<section class="scol12">
+			<span class="scol1 bcol3"></span>
+			<span class="scol10 bcol6" id="toast"></span>
+		</section>
+
+		<footer class="scol12 footer">
+			<section class="scol12 bcol4">
+				<h1>About</h1>
+				<p>We are students of the Ciudad Valles Technological Institute.</p>
+			</section>
+			<section class="scol12 bcol4">
+				<h1>Contact</h1>
+				<p>
+					<span class="fa fa-envelope"></span> contact.teamtasks@gmail.com
+				</p>
+			</section>
+			<section class="scol12 bcol4">
+				<h1>Source code</h1>
+				<p>
+					Yes, it's open source and licensed under the GPLv3. Find it
+					<a href="https://github.com/PSIProject">here</a>. <span class="fab fa-github"></span>
+				</p>
+			</section>
+		</footer>
+	</body>
+</html>

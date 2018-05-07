@@ -1,0 +1,19 @@
+.scroll-area
+{
+	overflow-y: auto;
+	height: 50vh;
+	max-height: 50vh;
+}
+
+.scroll-area-row
+{
+	padding: 3%;
+	text-align: center;
+	font-size: 150%;
+	color: #444;
+}
+
+.scroll-area-row span
+{
+	font-size: 80%;
+}

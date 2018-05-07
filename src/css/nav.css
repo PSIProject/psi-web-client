@@ -1,0 +1,18 @@
+nav span
+{
+	padding: 2%;
+	color: #555;
+	text-align: center;
+	transition: 0.4s;
+}
+
+nav span:hover
+{
+	cursor: pointer;
+	color: #418fe0;
+}
+
+.selected-nav-item
+{
+	color: #418fe0;
+}
