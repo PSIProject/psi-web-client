@@ -7,7 +7,6 @@
 		<link rel="stylesheet" type="text/css" href="css/buttons.css" />
 		<link rel="stylesheet" type="text/css" href="css/footer.css" />
 		<link rel="stylesheet" type="text/css" href="css/form.css" />
-		<link rel="stylesheet" type="text/css" href="css/nav.css" />
 		<link rel="stylesheet" type="text/css" href="css/team-tasks.css" />
 		<link rel="stylesheet" type="text/css" href="css/toast.css" />
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css"
@@ -22,9 +21,9 @@
 	<body>
 		<nav class="scol12">
 			<span class="scol1_5 bcol3"></span>
-			<span class="scol3 bcol2 selected-nav-item" id="nav-item-home" onclick="goToSection(Sections.Home)">HOME</span>
-			<span class="scol3 bcol2" id="nav-item-teams" onclick="goToSection(Sections.Teams)">TEAMS</span>
-			<span class="scol3 bcol2" onclick="logOut()">LOG OUT</span>
+			<span class="scol3 bcol2 section-selector selected-section-selector" id="nav-item-home" onclick="goToSection(Sections.Home)">HOME</span>
+			<span class="scol3 bcol2 section-selector" id="nav-item-teams" onclick="goToSection(Sections.Teams)">TEAMS</span>
+			<span class="scol3 bcol2 section-selector" onclick="logOut()">LOG OUT</span>
 		</nav>
 
 		<main class="scol12">
@@ -33,6 +32,7 @@
 				<h1>Home</h1>
 			</section>
 
+			<!-- Teams section -->
 			<section class="scol12 bcol6" id="teams-section" style="display: none">
 				<h1>Teams</h1>
 				<div class="scroll-area" id="teams-area"></div>

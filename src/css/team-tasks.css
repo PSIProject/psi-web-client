@@ -17,3 +17,15 @@
 {
 	font-size: 80%;
 }
+
+/* Section selectors */
+.section-selector
+{
+	padding: 2%;
+	color: #555;
+	text-align: center;
+	transition: 0.4s;
+	cursor: pointer;
+}
+
+.section-selector:hover, .selected-section-selector { color: #418fe0; }

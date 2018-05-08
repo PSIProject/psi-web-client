@@ -31,7 +31,7 @@ function goToSection(section)
 	switch (currentSection)
 	{
 		case Sections.Home:
-			document.getElementsByClassName("selected-nav-item") [0].classList.remove("selected-nav-item");
+			document.getElementById("nav-item-home").classList.remove("selected-section-selector");
 		break;
 
 		case Sections.Team:
@@ -39,7 +39,7 @@ function goToSection(section)
 		break;
 
 		case Sections.Teams:
-			document.getElementsByClassName("selected-nav-item") [0].classList.remove("selected-nav-item");
+			document.getElementById("nav-item-teams").classList.remove("selected-section-selector");
 	}
 
 
@@ -50,7 +50,7 @@ function goToSection(section)
 	switch (currentSection)
 	{
 		case Sections.Home:
-			document.getElementById("nav-item-home").classList.add("selected-nav-item");
+			document.getElementById("nav-item-home").classList.add("selected-section-selector");
 		break;
 
 		case Sections.Team:
@@ -58,7 +58,7 @@ function goToSection(section)
 		break;
 
 		case Sections.Teams:
-			document.getElementById("nav-item-teams").classList.add("selected-nav-item");
+			document.getElementById("nav-item-teams").classList.add("selected-section-selector");
 			getTeams();
 	}
 }
