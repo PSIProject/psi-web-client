@@ -25,3 +25,9 @@ button
 }
 
 .text-button:hover { color: #025cb9; }
+
+button .fa, button .far
+{
+	font-size: 70%;
+	padding-top: 1%;
+}
