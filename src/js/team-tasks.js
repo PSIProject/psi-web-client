@@ -11,7 +11,19 @@ const Sections =
 	Teams: 		"teams-section"
 };
 
+//////////////////////////////////
+/// Defines the subsections of the app.
+/// They're used as argument of showSubsection()
+//////////////////////////////////
+const Subsections =
+{
+	Goals: "goals-subsection",
+	Members: "members-subsection"
+};
+
 var currentSection = Sections.Home;		/// Holds app's current section
+var currentSubsection = null;			/// Holds app's current subsection
+
 var team =								/// Holds info of the team which is being visualization
 {
 	name: null,		/// Team's name
@@ -55,12 +67,33 @@ function goToSection(section)
 
 		case Sections.Team:
 			document.getElementById("team-section-team-name").innerHTML = team.name;
+			showSubsection(Subsections.Goals);
 		break;
 
 		case Sections.Teams:
 			document.getElementById("nav-item-teams").classList.add("selected-section-selector");
 			getTeams();
 	}
+}
+
+//////////////////////////////////
+/// Hides current subsection and
+/// shows the given subsection
+//////////////////////////////////
+function showSubsection(subsection)
+{
+	if (currentSubsection == subsection)
+		return;
+
+	if (currentSubsection)
+	{
+		document.getElementById(currentSubsection + "-selector").classList.remove("selected-section-selector");
+		document.getElementById(currentSubsection).style.display = "none";
+	}
+
+	currentSubsection = subsection;
+	document.getElementById(currentSubsection + "-selector").classList.add("selected-section-selector");
+	document.getElementById(currentSubsection).style.display = "block";
 }
 
 //////////////////////////////////
