@@ -67,7 +67,7 @@
 				<section class="scol12" id="members-subsection" style="display: none">
 					<div class="scol12 scroll-area" id="members-area"></div>
 					<span class="bcol3"></span>
-					<button class="scol12 bcol6 blue-button">
+					<button class="scol12 bcol6 blue-button" onclick="goToSection(Sections.AddMember)">
 						<span class="scol2"></span>
 						<span class="scol8">Add member</span>
 						<span class="scol2 fa fa-user"></span>
@@ -103,6 +103,18 @@
 						<span class="scol2 fa fa-check-circle"></span>
 					</button>
 				</form>
+			</section>
+
+			<!-- Add member section -->
+			<section class="scol12 bcol6" id="add-member-section" style="display: none">
+				<h1>Add member</h1>
+				<span class="scol0 bcol2"></span>
+				<form class="scol12 bcol8" name="search-user-form" action="">
+					<label class="scol12" for="search-user-nick">Nick</label>
+					<input class="scol12" type="text" name="search-user-nick" oninput="searchUsers()" />
+				</form>
+				<span class="scol0 bcol2"></span>
+				<div class="scol12 scroll-area" id="found-users-area"></div>
 			</section>
 		</main>
 
