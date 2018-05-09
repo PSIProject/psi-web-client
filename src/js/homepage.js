@@ -9,7 +9,8 @@ function logIn()
 		if (this.readyState != 4 || this.status != 200)
 			return;
 
-		if (this.responseText == "true")
+		var serverResponse = JSON.parse(this.responseText);
+		if (serverResponse.status == "ok")
 		{
 			document.location.href = "team-tasks.html";
 		}
@@ -37,7 +38,8 @@ function verifyNickAvailability(input)
 		if (this.readyState != 4 || this.status != 200)
 			return;
 
-		if (this.responseText == "false")
+		var serverResponse = JSON.parse(this.responseText);
+		if (serverResponse.status == "false")
 		{
 			input.value = "";
 			document.getElementById("unavailable-nick-message").style.display = "block";
@@ -65,7 +67,8 @@ function verifyEmailAvailability(input)
 		if (this.readyState != 4 || this.status != 200)
 			return;
 
-		if (this.responseText == "false")
+		var serverResponse = JSON.parse(this.responseText);
+		if (serverResponse.status == "false")
 		{
 			input.value = "";
 			input.focus();
@@ -122,8 +125,9 @@ function signUp()
 			return;
 
 		signUpForm.reset();
+		var serverResponse = JSON.parse(this.responseText);
 
-		if (this.responseText == "ok")
+		if (serverResponse.status == "ok")
 		{
 			showToast("Everything went ok", BlueToast);
 			replaceElement('sign-up-section', 'login-section');

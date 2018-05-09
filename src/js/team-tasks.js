@@ -129,7 +129,12 @@ function prepareTeamData(teamName, teamId = null)
 		if (this.readyState != 4 || this.status != 200)
 			return;
 
-		showSubsection(Subsections.Goals);
+		var serverResponse = JSON.parse(this.responseText);
+
+		if (serverResponse.status == "ok")
+			showSubsection(Subsections.Goals);
+		else
+			showToast("Sorry, something went wrong");
 	}
 	xhr.open("POST", "php/store-team-id.php");
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -150,11 +155,12 @@ function createGoal()
 		if (this.readyState != 4 || this.status != 200)
 			return;
 
-		if (this.responseText == "ok")
+		var serverResponse = JSON.parse(this.responseText);
+		if (serverResponse.status == "ok")
 		{
 			showToast("Goal was created", BlueToast);
 		}
-		else if (this.responseText == "already exist")
+		else if (serverResponse.status == "already exist")
 		{
 			showToast("You already have a goal with that name");
 		}
@@ -186,13 +192,14 @@ function createTeam()
 		if (this.readyState != 4 || this.status != 200)
 			return;
 
-		if (this.responseText == "true") /// If the team was created
+		var serverResponse = JSON.parse(this.responseText);
+		if (serverResponse.status == "ok") /// If the team was created
 		{
 			showToast("Team was created", BlueToast);
 			prepareTeamData(teamNameField.value);
 			goToSection(Sections.Team);
 		}
-		else if (this.responseText == "already exist") /// If there is another team with that name
+		else if (serverResponse.status == "already exist") /// If there is another team with that name
 		{
 			showToast("You already have a team with that name");
 		}
@@ -354,7 +361,8 @@ window.onload = function()
 		if (this.readyState != 4 || this.status != 200)
 			return;
 
-		if (this.responseText == "false")
+		var serverResponse = JSON.parse(this.responseText);
+		if (serverResponse.status == "false")
 			document.location.href = "homepage.html";
 	}
 	xhr.open("GET", "php/has-logged-in.php");
