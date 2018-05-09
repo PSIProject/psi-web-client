@@ -27,7 +27,6 @@ var currentSubsection = null;			/// Holds app's current subsection
 var team =								/// Holds info of the team which is being visualization
 {
 	name: null,		/// Team's name
-	members: null	/// Team's number of members
 };
 
 //////////////////////////////////
@@ -47,7 +46,7 @@ function goToSection(section)
 		break;
 
 		case Sections.Team:
-			team.name = team.members = null;
+			team.name = null;
 		break;
 
 		case Sections.Teams:
@@ -67,7 +66,6 @@ function goToSection(section)
 
 		case Sections.Team:
 			document.getElementById("team-section-team-name").innerHTML = team.name;
-			showSubsection(Subsections.Goals);
 		break;
 
 		case Sections.Teams:
@@ -82,9 +80,6 @@ function goToSection(section)
 //////////////////////////////////
 function showSubsection(subsection)
 {
-	if (currentSubsection == subsection)
-		return;
-
 	if (currentSubsection)
 	{
 		document.getElementById(currentSubsection + "-selector").classList.remove("selected-section-selector");
@@ -94,6 +89,44 @@ function showSubsection(subsection)
 	currentSubsection = subsection;
 	document.getElementById(currentSubsection + "-selector").classList.add("selected-section-selector");
 	document.getElementById(currentSubsection).style.display = "block";
+
+	switch (currentSubsection)
+	{
+		case Subsections.Goals:		getTeamGoals(); break;
+		case Subsections.Members:	getTeamMembers();
+	}
+}
+
+//////////////////////////////////
+/// Prepare team data to go to
+/// team section.
+/// Param teamName is displayed as
+/// header in team section.
+/// If teamId is specified, it's stored
+/// in server.
+//////////////////////////////////
+function prepareTeamData(teamName, teamId = null)
+{
+	team.name = teamName;
+	goToSection(Sections.Team);
+
+	if (teamId == null)
+	{
+		showSubsection(Subsections.Goals);
+		return;
+	}
+
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		showSubsection(Subsections.Goals);
+	}
+	xhr.open("POST", "php/store-team-id.php");
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send("team_id=" + teamId);
 }
 
 //////////////////////////////////
@@ -117,7 +150,7 @@ function createTeam()
 		if (this.responseText == "true") /// If the team was created
 		{
 			showToast("Team was created", BlueToast);
-			teamName = teamNameField.value;
+			prepareTeamData(teamNameField.value);
 			goToSection(Sections.Team);
 		}
 		else if (this.responseText == "already exist") /// If there is another team with that name
@@ -162,7 +195,8 @@ function getTeams()
 			var teamElement = document.createElement("div");
 			teamElement.className = "scroll-area-row text-button";
 			teamElement.innerHTML = team.name + " - ";
-			teamElement.setAttribute("onclick", "team.name = '" + team.name + "'; team.members = " + team.members + "; goToSection(Sections.Team)");
+			teamElement.setAttribute("onclick", "prepareTeamData('" + team.name + "', " + team.id + ")");
+			//teamElement.setAttribute("onclick", "team.name = '" + team.name + "'; team.id = " + team.id + "; goToSection(Sections.Team)");
 
 			var membersElement = document.createElement("span");
 			var membersIcon = document.createElement("span");
@@ -176,6 +210,79 @@ function getTeams()
 		}
 	}
 	xhr.open("GET", "php/get-user-teams.php");
+	xhr.send();
+}
+
+//////////////////////////////////
+/// Get the goals of a selected
+/// team and displays them in
+/// goals-area
+//////////////////////////////////
+function getTeamGoals()
+{
+	var goalsArea = document.getElementById("goals-area");
+	while (goalsArea.firstChild)
+		goalsArea.removeChild(goalsArea.firstChild);
+
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		if (! this.responseText.length)
+			return;
+
+		var goals = JSON.parse(this.responseText);
+		for (var i = 0; i < goals.length; i++)
+		{
+			var goal = goals [i];
+			var goalElement = document.createElement("div");
+			goalElement.className = "scroll-area-row text-button";
+			goalElement.innerHTML = goal.name;
+			goalsArea.appendChild(goalElement);
+		}
+	}
+	xhr.open("GET", "php/get-team-goals.php");
+	xhr.send();
+}
+
+//////////////////////////////////
+/// Gets team members and displays them
+/// in members area
+//////////////////////////////////
+function getTeamMembers()
+{
+	var membersArea = document.getElementById("members-area");
+	while (membersArea.firstChild)
+		membersArea.removeChild(membersArea.firstChild);
+
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		var members = JSON.parse(this.responseText);
+		for (var i = 0; i < members.length; i++)
+		{
+			var member = members [i];
+			var memberElement = document.createElement("div");
+			memberElement.className = "scroll-area-row";
+
+			var memberNameElement = document.createElement("span");
+			memberNameElement.className = "text-button scol10";
+			memberNameElement.innerHTML = member.name;
+
+			var removeMemberIcon = document.createElement("span");
+			removeMemberIcon.className = "scol2 fa fa-times";
+
+			memberElement.appendChild(memberNameElement);
+			memberElement.appendChild(removeMemberIcon);
+			membersArea.appendChild(memberElement);
+		}
+	}
+	xhr.open("GET", "php/get-team-members.php");
 	xhr.send();
 }
 
