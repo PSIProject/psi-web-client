@@ -6,6 +6,7 @@
 const Sections =
 {
 	Home:		"home-section",
+	NewGoal:	"new-goal-section",
 	NewTeam:	"new-team-section",
 	Team:		"team-section",
 	Teams: 		"teams-section"
@@ -62,6 +63,12 @@ function goToSection(section)
 	{
 		case Sections.Home:
 			document.getElementById("nav-item-home").classList.add("selected-section-selector");
+		break;
+
+		case Sections.NewGoal:
+			var newGoalForm = document.forms ["new-goal-form"];
+			newGoalForm.reset();
+			newGoalForm ["new-goal-name"].focus();
 		break;
 
 		case Sections.Team:
@@ -127,6 +134,38 @@ function prepareTeamData(teamName, teamId = null)
 	xhr.open("POST", "php/store-team-id.php");
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send("team_id=" + teamId);
+}
+
+//////////////////////////////////
+/// Tries to create a goal in server
+/// for current
+//////////////////////////////////
+function createGoal()
+{
+	var goalName = document.forms ["new-goal-form"] ["new-goal-name"].value;
+
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		if (this.responseText == "ok")
+		{
+			showToast("Goal was created", BlueToast);
+		}
+		else if (this.responseText == "already exist")
+		{
+			showToast("You already have a goal with that name");
+		}
+		else
+		{
+			showToast("Sorry, there was a problem creating your goal");
+		}
+	}
+	xhr.open("POST", "php/create-goal.php");
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send("name=" + goalName);
 }
 
 //////////////////////////////////
