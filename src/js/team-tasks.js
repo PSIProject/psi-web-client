@@ -242,7 +242,6 @@ function getTeams()
 			teamElement.className = "scroll-area-row text-button";
 			teamElement.innerHTML = team.name + " - ";
 			teamElement.setAttribute("onclick", "prepareTeamData('" + team.name + "', " + team.id + ")");
-			//teamElement.setAttribute("onclick", "team.name = '" + team.name + "'; team.id = " + team.id + "; goToSection(Sections.Team)");
 
 			var membersElement = document.createElement("span");
 			var membersIcon = document.createElement("span");
@@ -314,16 +313,12 @@ function getTeamMembers()
 		{
 			var member = members [i];
 			var memberElement = document.createElement("div");
-			memberElement.className = "scroll-area-row";
-
-			var memberNameElement = document.createElement("span");
-			memberNameElement.className = "text-button scol10";
-			memberNameElement.innerHTML = member.name;
+			memberElement.className = "scroll-area-row text-button";
+			memberElement.innerHTML = member.name + " ";
 
 			var removeMemberIcon = document.createElement("span");
-			removeMemberIcon.className = "scol2 fa fa-times";
+			removeMemberIcon.className = "fa fa-times";
 
-			memberElement.appendChild(memberNameElement);
 			memberElement.appendChild(removeMemberIcon);
 			membersArea.appendChild(memberElement);
 		}
