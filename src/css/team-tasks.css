@@ -1,7 +1,6 @@
 .scroll-area
 {
 	overflow-y: auto;
-	height: 50vh;
 	max-height: 50vh;
 }
 

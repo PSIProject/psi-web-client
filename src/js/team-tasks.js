@@ -357,12 +357,39 @@ function searchUsers()
 			var userElement = document.createElement("div");
 			userElement.className = "scroll-area-row text-button";
 			userElement.innerHTML = foundUser.nick;
+			userElement.setAttribute("onclick", "addMember(" + foundUser.id + ")");
 			foundUsersArea.appendChild(userElement);
 		}
 	}
 	xhr.open("POST", "php/search-users.php");
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send("keyword=" + keyword);
+}
+
+//////////////////////////////////
+/// Adds a user as a member of the current
+/// team. Receives the id of the user
+/// to be added as member.
+//////////////////////////////////
+function addMember(userId)
+{
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		var serverResponse = JSON.parse(this.responseText);
+		if (serverResponse.status == "ok")
+			showToast("Ok, user added as member of your team", BlueToast);
+		else if (serverResponse.status == "already exists")
+			showToast("Sorry, that user is a member of your team");
+		else
+			showToast("Ups, something went wrong");
+	}
+	xhr.open("POST", "php/add-user-to-team.php");
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send("user_id=" + userId);
 }
 
 //////////////////////////////////
