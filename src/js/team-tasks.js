@@ -6,6 +6,7 @@
 const Sections =
 {
 	AddMember:  "add-member-section",
+	Goal:		"goal-section",
 	Home:		"home-section",
 	NewGoal:	"new-goal-section",
 	NewTeam:	"new-team-section",
@@ -62,6 +63,10 @@ function goToSection(section)
 	// Highlight current section in nav bar
 	switch (currentSection)
 	{
+		case Sections.Goal:
+			getGoalTasks();
+		break;
+
 		case Sections.Home:
 			document.getElementById("nav-item-home").classList.add("selected-section-selector");
 		break;
@@ -143,6 +148,42 @@ function prepareTeamData(teamName, teamId = null)
 }
 
 //////////////////////////////////
+/// Prepare goal's data to go to
+/// goal section.
+/// Param goalName is displayed as
+/// header in goal section.
+/// If goalId is specified, it's stored
+/// in server.
+//////////////////////////////////
+function prepareGoalData(goalName, goalId = null)
+{
+	document.getElementById("goal-name").innerHTML = goalName;
+
+	if (goalId == null)
+	{
+		goToSection(Sections.Goal);
+		return;
+	}
+
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		var serverResponse = JSON.parse(this.responseText);
+
+		if (serverResponse.status == "ok")
+			goToSection(Sections.Goal);
+		else
+			showToast("Sorry, something went wrong");
+	}
+	xhr.open("POST", "php/store-goal-id.php");
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send("goal_id=" + goalId);
+}
+
+//////////////////////////////////
 /// Tries to create a goal in server
 /// for current
 //////////////////////////////////
@@ -160,6 +201,7 @@ function createGoal()
 		if (serverResponse.status == "ok")
 		{
 			showToast("Goal was created", BlueToast);
+			prepareGoalData(goalName);
 		}
 		else if (serverResponse.status == "already exist")
 		{
@@ -286,6 +328,7 @@ function getTeamGoals()
 			var goalElement = document.createElement("div");
 			goalElement.className = "scroll-area-row text-button";
 			goalElement.innerHTML = goal.name;
+			goalElement.setAttribute("onclick", "prepareGoalData('" + goal.name + "', " + goal.id + ")");
 			goalsArea.appendChild(goalElement);
 		}
 	}
@@ -314,7 +357,7 @@ function getTeamMembers()
 		{
 			var member = members [i];
 			var memberElement = document.createElement("div");
-			memberElement.className = "scroll-area-row text-button";
+			memberElement.className = "scroll-area-row";
 			memberElement.innerHTML = member.name + " ";
 
 			var removeMemberIcon = document.createElement("span");
@@ -325,6 +368,37 @@ function getTeamMembers()
 		}
 	}
 	xhr.open("GET", "php/get-team-members.php");
+	xhr.send();
+}
+
+//////////////////////////////////
+/// Gets goal's tasks from server
+/// and displays them as a list.
+//////////////////////////////////
+function getGoalTasks()
+{
+	var tasksArea = document.getElementById("tasks-area");
+	while (tasksArea.firstChild)
+		tasksArea.removeChild(tasksArea.firstChild);
+
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		var tasks = JSON.parse(this.responseText);
+		for (var i = 0; i < tasks.length; i++)
+		{
+			var task = tasks [i];
+			var taskElement = document.createElement("div");
+			taskElement.className = "scroll-area-row text-button";
+			taskElement.innerHTML = task.name + " ";
+
+			tasksArea.appendChild(taskElement);
+		}
+	}
+	xhr.open("GET", "php/get-tasks.php");
 	xhr.send();
 }
 
