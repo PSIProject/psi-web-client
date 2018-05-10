@@ -9,6 +9,7 @@ const Sections =
 	Goal:		"goal-section",
 	Home:		"home-section",
 	NewGoal:	"new-goal-section",
+	NewTask:	"new-task-section",
 	NewTeam:	"new-team-section",
 	Team:		"team-section",
 	Teams: 		"teams-section"
@@ -256,6 +257,78 @@ function createTeam()
 	xhr.open("POST", "php/create-team.php");
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send("name=" + teamNameField.value);
+}
+
+//////////////////////////////////
+/// Verifies that the input task's name
+/// is not registered as a task of
+/// current goal
+//////////////////////////////////
+function verifyTaskNameAvailability(taskNameField)
+{
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		var serverResponse = JSON.parse(this.responseText);
+		if (serverResponse.status == "true")
+		{
+			taskNameField.value = "";
+			document.getElementById("unavailable-task-name-message").style.display = "block";
+		}
+	}
+	xhr.open("POST", "php/is-task-registered.php");
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send("task_name=" + taskNameField.value);
+}
+
+//////////////////////////////////
+/// Verifies that initial date
+/// is lower than finish date
+//////////////////////////////////
+function validateNewTaskForm(taskForm)
+{
+	var initalDate = new Date(taskForm ["initial-date"].value);
+	var finishDate = new Date(taskForm ["finish-date"].value);
+
+	if (initalDate <= finishDate)
+		return true;
+
+	showToast("Initial date can't be lower than finish date");
+	return false;
+}
+
+//////////////////////////////////
+/// Tries to create a new task using
+/// new-task-form's data in the server.
+//////////////////////////////////
+function createTask()
+{
+	var taskForm = document.forms ["new-task-form"];
+	var taskData = new Object();
+	taskData.name = taskForm ["name"].value;
+	taskData.description = taskForm ["description"].value;
+	taskData.delivery_description = taskForm ["delivery-description"].value;
+	taskData.init_date = taskForm ["initial-date"].value;
+	taskData.finish_date = taskForm ["finish-date"].value;
+
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		var serverResponse = JSON.parse(this.responseText);
+		if (serverResponse.status == "ok")
+			showToast("Task was created", BlueToast);
+		else
+			showToast("Sorry, something went wrong");
+	}
+	xhr.open("POST", "php/create-task.php");
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send("task_data=" + JSON.stringify(taskData));
 }
 
 //////////////////////////////////

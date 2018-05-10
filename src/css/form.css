@@ -1,4 +1,4 @@
-input[type=text], input[type=password], input[type=email], input[type=number], textarea
+input[type=text], input[type=password], input[type=email], input[type=number], input[type=date], textarea
 {
 	background-color: white;
 	color: #555753;

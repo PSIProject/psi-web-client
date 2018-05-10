@@ -128,6 +128,38 @@
 					<span class="scol2 far fa-clipboard"></span>
 				</button>
 			</section>
+
+			<!-- New task section -->
+			<section class="scol12 bcol6" id="new-task-section" style="display: none">
+				<h1>New task</h1>
+				<span class="scol0 bcol2"></span>
+				<form class="scol12 bcol8" name="new-task-form" action="javascript: createTask()" onsubmit="return validateNewTaskForm(this)">
+					<label class="scol12" for="name">Name</label>
+					<input class="scol12" type="text" name="name" required="required" onchange="verifyTaskNameAvailability(this)"
+						   oninput="document.getElementById('unavailable-task-name-message').style.display = 'none'" />
+					<span class="scol12 input-error-message" id="unavailable-task-name-message" style="display: none">
+						There's already a task with that name
+					</span>
+
+					<label class="scol12" for="description">Description</label>
+					<textarea class="scol12 textarea" name="description" required="required"></textarea>
+
+					<label class="scol12" for="delivery-description">Delivery description</label>
+					<input class="scol12" type="text" name="delivery-description" required="required" />
+
+					<label class="scol12" for="initial-date">Initial date</label>
+					<input class="scol12" type="date" name="initial-date" required="required" />
+
+					<label class="scol12" for="finish-date">Finish date</label>
+					<input class="scol12" type="date" name="finish-date" required="required" />
+
+					<button class="scol12 blue-button">
+						<span class="scol2"></span>
+						<span class="scol8">Create</span>
+						<span class="scol2 fa fa-check-circle"></span>
+					</button>
+				</form>
+			</section>
 		</main>
 
 		<!-- Toast -->
