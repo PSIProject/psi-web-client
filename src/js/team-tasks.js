@@ -32,11 +32,9 @@ const Subsections =
 
 var currentSection = Sections.Home;		/// Holds app's current section
 var currentSubsection = null;			/// Holds app's current subsection
-
-var team =								/// Holds info of the team which is being visualization
-{
-	name: null,		/// Team's name
-};
+var teamName = null;
+var goalName = null;
+var taskName = null;
 
 //////////////////////////////////
 /// Replace currentSection by the
@@ -54,14 +52,9 @@ function goToSection(section)
 			document.getElementById("nav-item-home").classList.remove("selected-section-selector");
 		break;
 
-		case Sections.Team:
-			team.name = null;
-		break;
-
 		case Sections.Teams:
 			document.getElementById("nav-item-teams").classList.remove("selected-section-selector");
 	}
-
 
 	replaceElement(currentSection, section);
 	currentSection = section;
@@ -75,10 +68,14 @@ function goToSection(section)
 
 		case Sections.Goal:
 			getGoalTasks();
+			removeBreadcumbs();
+			addBreadcumb(teamName, "goToSection(Sections.Team)");
+			addBreadcumb(goalName, "goToSection(Sections.Goal)");
 		break;
 
 		case Sections.Home:
 			document.getElementById("nav-item-home").classList.add("selected-section-selector");
+			removeBreadcumbs();
 		break;
 
 		case Sections.NewGoal:
@@ -89,15 +86,20 @@ function goToSection(section)
 
 		case Sections.Task:
 			showSubsection(Subsections.TaskDescription);
+			addBreadcumb(taskName, "goToSection(Sections.Task)");
 		break;
 
 		case Sections.Team:
-			document.getElementById("team-section-team-name").innerHTML = team.name;
+			document.getElementById("team-section-team-name").innerHTML = teamName;
+			removeBreadcumbs();
+			addBreadcumb(teamName, "goToSection(Sections.Team)");
+			showSubsection(Subsections.Goals);
 		break;
 
 		case Sections.Teams:
 			document.getElementById("nav-item-teams").classList.add("selected-section-selector");
 			getTeams();
+			removeBreadcumbs();
 	}
 }
 
@@ -134,16 +136,13 @@ function showSubsection(subsection)
 /// If teamId is specified, it's stored
 /// in server.
 //////////////////////////////////
-function prepareTeamData(teamName, teamId = null)
+function prepareTeamData(nameOfTeam, teamId = null)
 {
-	team.name = teamName;
+	teamName = nameOfTeam;
 	goToSection(Sections.Team);
 
 	if (teamId == null)
-	{
-		showSubsection(Subsections.Goals);
 		return;
-	}
 
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function()
@@ -171,8 +170,9 @@ function prepareTeamData(teamName, teamId = null)
 /// If goalId is specified, it's stored
 /// in server.
 //////////////////////////////////
-function prepareGoalData(goalName, goalId = null)
+function prepareGoalData(nameOfGoal, goalId = null)
 {
+	goalName = nameOfGoal;
 	document.getElementById("goal-name").innerHTML = goalName;
 
 	if (goalId == null)
@@ -207,8 +207,9 @@ function prepareGoalData(goalName, goalId = null)
 /// If taskId is specified, it's stored
 /// in server.
 //////////////////////////////////
-function prepareTaskData(taskName, taskId)
+function prepareTaskData(nameOfTask, taskId)
 {
+	taskName = nameOfTask;
 	document.getElementById("task-name").innerHTML = taskName;
 
 	if (taskId == null)
@@ -241,7 +242,7 @@ function prepareTaskData(taskName, taskId)
 //////////////////////////////////
 function createGoal()
 {
-	var goalName = document.forms ["new-goal-form"] ["new-goal-name"].value;
+	goalName = document.forms ["new-goal-form"] ["new-goal-name"].value;
 
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function()
@@ -732,4 +733,21 @@ window.onload = function()
 	}
 	xhr.open("GET", "php/has-logged-in.php");
 	xhr.send();
+}
+
+function removeBreadcumbs()
+{
+	var breadcrumbsSection = document.getElementById("breadcrumbs-section");
+	while (breadcrumbsSection.firstChild)
+		breadcrumbsSection.removeChild(breadcrumbsSection.firstChild);
+}
+
+function addBreadcumb(text, onclick)
+{
+	var breadcrumbsSection = document.getElementById("breadcrumbs-section");
+	var breadcrumb = document.createElement("span");
+	breadcrumb.className = "breadcrumb";
+	breadcrumb.innerHTML = text;
+	breadcrumb.setAttribute("onclick", onclick);
+	breadcrumbsSection.appendChild(breadcrumb);
 }

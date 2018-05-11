@@ -28,3 +28,20 @@
 }
 
 .section-selector:hover, .selected-section-selector { color: #418fe0; }
+
+/* Breadcrumbs */
+.breadcrumb
+{
+	color: #333;
+	font-size: 120%;
+	transition: 0.4s;
+}
+
+.breadcrumb:hover
+{
+	cursor: pointer;
+	color: #f15f17;
+}
+
+.breadcrumb::after { content: ' > '; }
+.breadcrumb:last-child::after { content: ''; }
