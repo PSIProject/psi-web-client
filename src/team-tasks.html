@@ -160,6 +160,53 @@
 					</button>
 				</form>
 			</section>
+
+			<!-- Task section -->
+			<section class="scol12 bcol6" id="task-section" style="display: none">
+				<h1 id="task-name">Task</h1>
+				<div class="scol12">
+					<span class="scol4 section-selector" id="task-description-subsection-selector"
+						  onclick="showSubsection(Subsections.TaskDescription)">DESCRIPTION</span>
+					<span class="scol4 section-selector" id="task-chat-subsection-selector"
+						  onclick="showSubsection(Subsections.TaskChat)">CHAT</span>
+					<span class="scol4 section-selector" id="task-members-subsection-selector"
+						  onclick="showSubsection(Subsections.TaskMembers)">MEMBERS</span>
+				</div>
+
+				<!-- Task description subsection -->
+				<section class="scol12" id="task-description-subsection" style="display: none">
+					<p id="task-description"></p>
+					<p id="task-delivery-description"></p>
+					<p id="task-finish-date"></p>
+				</section>
+
+				<!-- Task chat subsection -->
+				<section class="scol12" id="task-chat-subsection" style="display: none">
+				</section>
+
+				<!-- Task members subsection -->
+				<section class="scol12" id="task-members-subsection" style="display: none">
+					<div class="scroll-area" id="task-members-area"></div>
+					<span class="bcol3"></span>
+					<button class="scol12 bcol6 blue-button" onclick="goToSection(Sections.AddMemberToTask)">
+						<span class="scol2"></span>
+						<span class="scol8">Add member</span>
+						<span class="scol2 fa fa-user"></span>
+					</button>
+				</section>
+			</section>
+
+			<!-- Add member to task section -->
+			<section class="scol12 bcol6" id="add-member-to-task-section" style="display: none">
+				<h1>Add member</h1>
+				<div class="scroll-area" id="add-members-to-task-area"></div>
+				<span class="bcol3"></span>
+				<button class="scol12 bcol6 blue-button" onclick="goToSection(Sections.Task); showSubsection(Subsections.TaskMembers)">
+					<span class="scol2"></span>
+					<span class="scol8">Done</span>
+					<span class="scol2 fa fa-check-circle"></span>
+				</button>
+			</section>
 		</main>
 
 		<!-- Toast -->

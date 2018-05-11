@@ -5,14 +5,16 @@
 //////////////////////////////////
 const Sections =
 {
-	AddMember:  "add-member-section",
-	Goal:		"goal-section",
-	Home:		"home-section",
-	NewGoal:	"new-goal-section",
-	NewTask:	"new-task-section",
-	NewTeam:	"new-team-section",
-	Team:		"team-section",
-	Teams: 		"teams-section"
+	AddMember:  		"add-member-section",
+	AddMemberToTask:	"add-member-to-task-section",
+	Goal:				"goal-section",
+	Home:				"home-section",
+	NewGoal:			"new-goal-section",
+	NewTask:			"new-task-section",
+	NewTeam:			"new-team-section",
+	Task:				"task-section",
+	Team:				"team-section",
+	Teams: 				"teams-section"
 };
 
 //////////////////////////////////
@@ -21,8 +23,11 @@ const Sections =
 //////////////////////////////////
 const Subsections =
 {
-	Goals: "goals-subsection",
-	Members: "members-subsection"
+	Goals:				"goals-subsection",
+	Members:			"members-subsection",
+	TaskChat:		 	"task-chat-subsection",
+	TaskDescription: 	"task-description-subsection",
+	TaskMembers:	 	"task-members-subsection"
 };
 
 var currentSection = Sections.Home;		/// Holds app's current section
@@ -64,6 +69,10 @@ function goToSection(section)
 	// Highlight current section in nav bar
 	switch (currentSection)
 	{
+		case Sections.AddMemberToTask:
+			fillAddMemberToTaskSection();
+		break;
+
 		case Sections.Goal:
 			getGoalTasks();
 		break;
@@ -76,6 +85,10 @@ function goToSection(section)
 			var newGoalForm = document.forms ["new-goal-form"];
 			newGoalForm.reset();
 			newGoalForm ["new-goal-name"].focus();
+		break;
+
+		case Sections.Task:
+			showSubsection(Subsections.TaskDescription);
 		break;
 
 		case Sections.Team:
@@ -106,8 +119,10 @@ function showSubsection(subsection)
 
 	switch (currentSubsection)
 	{
-		case Subsections.Goals:		getTeamGoals(); break;
-		case Subsections.Members:	getTeamMembers();
+		case Subsections.Goals:				getTeamGoals();			break;
+		case Subsections.Members:			getTeamMembers();		break;
+		case Subsections.TaskDescription:	getTaskDescription();	break;
+		case Subsections.TaskMembers:		getTaskMembers();
 	}
 }
 
@@ -182,6 +197,42 @@ function prepareGoalData(goalName, goalId = null)
 	xhr.open("POST", "php/store-goal-id.php");
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send("goal_id=" + goalId);
+}
+
+//////////////////////////////////
+/// Prepare task's data to go to
+/// task section.
+/// Param taskName is displayed as
+/// header in task section.
+/// If taskId is specified, it's stored
+/// in server.
+//////////////////////////////////
+function prepareTaskData(taskName, taskId)
+{
+	document.getElementById("task-name").innerHTML = taskName;
+
+	if (taskId == null)
+	{
+		goToSection(Sections.Task);
+		return;
+	}
+
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		var serverResponse = JSON.parse(this.responseText);
+
+		if (serverResponse.status == "ok")
+			goToSection(Sections.Task);
+		else
+			showToast("Sorry, something went wrong");
+	}
+	xhr.open("POST", "php/store-task-id.php");
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send("task_id=" + taskId);
 }
 
 //////////////////////////////////
@@ -322,7 +373,10 @@ function createTask()
 
 		var serverResponse = JSON.parse(this.responseText);
 		if (serverResponse.status == "ok")
+		{
 			showToast("Task was created", BlueToast);
+			prepareTaskData(taskData.name);
+		}
 		else
 			showToast("Sorry, something went wrong");
 	}
@@ -467,11 +521,62 @@ function getGoalTasks()
 			var taskElement = document.createElement("div");
 			taskElement.className = "scroll-area-row text-button";
 			taskElement.innerHTML = task.name + " ";
-
+			taskElement.setAttribute("onclick", "prepareTaskData('" + task.name + "', " + task.id + ")");
 			tasksArea.appendChild(taskElement);
 		}
 	}
 	xhr.open("GET", "php/get-tasks.php");
+	xhr.send();
+}
+
+//////////////////////////////////
+/// Gets the description of the current
+/// task. Displays it in task-description-subsection
+//////////////////////////////////
+function getTaskDescription()
+{
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		var task = JSON.parse(this.responseText);
+		document.getElementById("task-description").innerHTML = "Description: " + task.description;
+		document.getElementById("task-delivery-description").innerHTML = "Delivery description: " + task.delivery_description;
+		document.getElementById("task-finish-date").innerHTML = "Finish date: " + task.finish_date;
+	}
+	xhr.open("GET", "php/get-task-information.php");
+	xhr.send();
+}
+
+//////////////////////////////////
+/// Get task members and displays them
+/// in task members area
+//////////////////////////////////
+function getTaskMembers()
+{
+	var taskMembersArea = document.getElementById("task-members-area");
+	while (taskMembersArea.firstChild)
+		taskMembersArea.removeChild(taskMembersArea.firstChild);
+
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		var taskMembers = JSON.parse(this.responseText);
+		for (var i = 0; i < taskMembers.length; i++)
+		{
+			var member = taskMembers [i];
+			var memberElement = document.createElement("div");
+			memberElement.className = "scroll-area-row";
+			memberElement.innerHTML = member.nick;
+			taskMembersArea.appendChild(memberElement);
+		}
+	}
+	xhr.open("GET", "php/get-task-members.php");
 	xhr.send();
 }
 
@@ -537,6 +642,59 @@ function addMember(userId)
 	xhr.open("POST", "php/add-user-to-team.php");
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send("user_id=" + userId);
+}
+
+//////////////////////////////////
+/// Adds a team member to a task
+//////////////////////////////////
+function addMemberToTask(memberId)
+{
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		var serverResponse = JSON.parse(this.responseText);
+		if (serverResponse.status == "ok")
+			showToast("User added", BlueToast);
+		else
+			showToast("This user has been already added to the task");
+	}
+	xhr.open("POST", "php/add-user-to-task.php");
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send("user_id=" + memberId);
+}
+
+//////////////////////////////////
+/// Displays team's members in
+/// add-members-to-task-area
+//////////////////////////////////
+function fillAddMemberToTaskSection()
+{
+	var membersArea = document.getElementById("add-members-to-task-area");
+	while (membersArea.firstChild)
+		membersArea.removeChild(membersArea.firstChild);
+
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		var teamMembers = JSON.parse(this.responseText);
+		for (var i = 0; i < teamMembers.length; i++)
+		{
+			var member = teamMembers [i];
+			var memberElement = document.createElement("div");
+			memberElement.className = "scroll-area-row text-button";
+			memberElement.innerHTML = member.name;
+			memberElement.setAttribute("onclick", "addMemberToTask(" + member.id + ")");
+			membersArea.appendChild(memberElement);
+		}
+	}
+	xhr.open("GET", "php/get-team-members.php");
+	xhr.send();
 }
 
 //////////////////////////////////
