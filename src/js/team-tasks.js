@@ -412,7 +412,9 @@ function getTeams()
 			var teamElement = document.createElement("div");
 			teamElement.className = "scroll-area-row text-button";
 			teamElement.innerHTML = team.name + " - ";
-			teamElement.setAttribute("onclick", "prepareTeamData('" + team.name + "', " + team.id + ")");
+
+			var validTeamName = team.name.replace(/'/g, "\\'");
+			teamElement.setAttribute("onclick", "prepareTeamData('" + validTeamName + "', " + team.id + ")");
 
 			var membersElement = document.createElement("span");
 			var membersIcon = document.createElement("span");
@@ -456,7 +458,9 @@ function getTeamGoals()
 			var goalElement = document.createElement("div");
 			goalElement.className = "scroll-area-row text-button";
 			goalElement.innerHTML = goal.name;
-			goalElement.setAttribute("onclick", "prepareGoalData('" + goal.name + "', " + goal.id + ")");
+
+			var validGoalName = goal.name.replace(/'/g, "\\'");
+			goalElement.setAttribute("onclick", "prepareGoalData('" + validGoalName + "', " + goal.id + ")");
 			goalsArea.appendChild(goalElement);
 		}
 	}
@@ -522,7 +526,9 @@ function getGoalTasks()
 			var taskElement = document.createElement("div");
 			taskElement.className = "scroll-area-row text-button";
 			taskElement.innerHTML = task.name + " ";
-			taskElement.setAttribute("onclick", "prepareTaskData('" + task.name + "', " + task.id + ")");
+
+			var validTaskName = task.name.replace(/'/g, "\\'");
+			taskElement.setAttribute("onclick", "prepareTaskData('" + validTaskName + "', " + task.id + ")");
 			tasksArea.appendChild(taskElement);
 		}
 	}
@@ -735,6 +741,9 @@ window.onload = function()
 	xhr.send();
 }
 
+//////////////////////////////////
+/// Removes all breadcrumbs
+//////////////////////////////////
 function removeBreadcumbs()
 {
 	var breadcrumbsSection = document.getElementById("breadcrumbs-section");
@@ -742,6 +751,12 @@ function removeBreadcumbs()
 		breadcrumbsSection.removeChild(breadcrumbsSection.firstChild);
 }
 
+//////////////////////////////////
+/// Adds a breadcumb. text is displayed
+/// by breadcumb and onclick is the
+/// onclick attribute of breadcumb element
+/// in a string.
+//////////////////////////////////
 function addBreadcumb(text, onclick)
 {
 	var breadcrumbsSection = document.getElementById("breadcrumbs-section");
