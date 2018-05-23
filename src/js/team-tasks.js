@@ -69,13 +69,14 @@ function goToSection(section)
 		case Sections.Goal:
 			getGoalTasks();
 			removeBreadcumbs();
-			addBreadcumb(teamName, "goToSection(Sections.Team)");
+			addBreadcumb(teamName, "prepareTeamData(teamName)");
 			addBreadcumb(goalName, "goToSection(Sections.Goal)");
 		break;
 
 		case Sections.Home:
 			document.getElementById("nav-item-home").classList.add("selected-section-selector");
 			removeBreadcumbs();
+			getUpcomingTasks();
 		break;
 
 		case Sections.NewGoal:
@@ -92,8 +93,7 @@ function goToSection(section)
 		case Sections.Team:
 			document.getElementById("team-section-team-name").innerHTML = teamName;
 			removeBreadcumbs();
-			addBreadcumb(teamName, "goToSection(Sections.Team)");
-			showSubsection(Subsections.Goals);
+			addBreadcumb(teamName, "prepareTeamData(teamName)");
 		break;
 
 		case Sections.Teams:
@@ -129,6 +129,37 @@ function showSubsection(subsection)
 }
 
 //////////////////////////////////
+/// Prepares team, goal and task
+/// data in the server, and redirects
+/// to the task section.
+//////////////////////////////////
+function goToTask(nameOfTask, taskId)
+{
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		var serverResponse = JSON.parse(this.responseText);
+
+		if (serverResponse.status != "ok")
+		{
+			showToast("Sorry, something went wrong");
+			return;
+		}
+
+		teamName = serverResponse.teamName;
+		goalName = serverResponse.goalName;
+		addBreadcumb(teamName, "prepareTeamData('" + teamName + "')");
+		addBreadcumb(goalName, "goToSection(Sections.Goal); prepareGoalData('" + goalName + "')");
+		prepareTaskData(nameOfTask);
+	}
+	xhr.open("GET", "php/get-team-and-goal-of-task.php?task_id=" + taskId);
+	xhr.send();
+}
+
+//////////////////////////////////
 /// Prepare team data to go to
 /// team section.
 /// Param teamName is displayed as
@@ -142,7 +173,10 @@ function prepareTeamData(nameOfTeam, teamId = null)
 	goToSection(Sections.Team);
 
 	if (teamId == null)
+	{
+		showSubsection(Subsections.Goals);
 		return;
+	}
 
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function()
@@ -384,6 +418,37 @@ function createTask()
 	xhr.open("POST", "php/create-task.php");
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send("task_data=" + JSON.stringify(taskData));
+}
+
+//////////////////////////////////
+/// Gets the upcoming tasks and
+/// fills the upcoming-tasks-area
+//////////////////////////////////
+function getUpcomingTasks()
+{
+	var upcomingTasksArea = document.getElementById("upcoming-tasks-area");
+	while (upcomingTasksArea.firstChild)
+		upcomingTasksArea.removeChild(upcomingTasksArea.firstChild);
+
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function()
+	{
+		if (this.readyState != 4 || this.status != 200)
+			return;
+
+		var upcomingTasks = JSON.parse(this.responseText);
+		for (var i = 0; i < upcomingTasks.length; i++)
+		{
+			var task = upcomingTasks [i];
+			var taskElement = document.createElement("div");
+			taskElement.className = "scroll-area-row text-button";
+			taskElement.innerHTML = task.name;
+			taskElement.setAttribute("onclick", "goToTask('" + task.name.replace(/'/g, "\\'") + "', " + task.id + ")");
+			upcomingTasksArea.appendChild(taskElement);
+		}
+	}
+	xhr.open("GET", "php/get-upcoming-tasks.php");
+	xhr.send();
 }
 
 //////////////////////////////////
@@ -736,6 +801,8 @@ window.onload = function()
 		var serverResponse = JSON.parse(this.responseText);
 		if (serverResponse.status == "false")
 			document.location.href = "homepage.html";
+
+		getUpcomingTasks();
 	}
 	xhr.open("GET", "php/has-logged-in.php");
 	xhr.send();
