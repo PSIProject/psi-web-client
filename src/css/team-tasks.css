@@ -45,3 +45,5 @@
 
 .breadcrumb::after { content: ' > '; }
 .breadcrumb:last-child::after { content: ''; }
+
+h1 { margin-top: 0; }
