@@ -556,11 +556,6 @@ function getTeamMembers()
 			var memberElement = document.createElement("div");
 			memberElement.className = "scroll-area-row";
 			memberElement.innerHTML = member.name + " ";
-
-			var removeMemberIcon = document.createElement("span");
-			removeMemberIcon.className = "fa fa-times";
-
-			memberElement.appendChild(removeMemberIcon);
 			membersArea.appendChild(memberElement);
 		}
 	}
@@ -832,4 +827,19 @@ function addBreadcumb(text, onclick)
 	breadcrumb.innerHTML = text;
 	breadcrumb.setAttribute("onclick", onclick);
 	breadcrumbsSection.appendChild(breadcrumb);
+}
+
+function getComments()
+{
+
+}
+
+//////////////////////////////////
+//////////////////////////////////
+function comment()
+{
+	var comment = document.getElementById("comment-input").value;
+
+	if (! comment.length)
+		return;
 }
